@@ -347,3 +347,4 @@ class NAMAttention(nn.Module):
 
         return x_out1
 
+

@@ -12,6 +12,7 @@ from ultralytics.nn.modules import (AIFI, C1, C2, C3, C3TR, SPP, SPPF, Bottlenec
                                     Focus, GhostBottleneck, GhostConv, HGBlock, HGStem, Pose, RepC3, RepConv,
                                     ResNetLayer, RTDETRDecoder, Segment,)
 from ultralytics.nn.modules.conv import NAMAttention
+from ultralytics.nn.modules.ShuffleAttention import ShuffleAttention
 from ultralytics.utils import DEFAULT_CFG_DICT, DEFAULT_CFG_KEYS, LOGGER, colorstr, emojis, yaml_load
 from ultralytics.utils.checks import check_requirements, check_suffix, check_yaml
 from ultralytics.utils.loss import v8ClassificationLoss, v8DetectionLoss, v8PoseLoss, v8SegmentationLoss
@@ -694,6 +695,9 @@ def parse_model(d, ch, verbose=True):  # model_dict, input_channels(3)
                 args.insert(2, n)  # number of repeats
                 n = 1
         elif m is AIFI:
+            args = [ch[f], *args]
+
+        elif m in {ShuffleAttention}:  # 在此处添加自己的注意力机制，命名是刚刚的类名
             args = [ch[f], *args]
 
         elif m in {NAMAttention}:
